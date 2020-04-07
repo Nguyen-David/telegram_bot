@@ -1,44 +1,77 @@
 import telebot
 
+# Начальная клавиатура
 bot = telebot.TeleBot('1148414585:AAHNcAE3wct7lvvIPK4lHFosYu9nISa-nBk')
 keyboard1 = telebot.types.ReplyKeyboardMarkup(True)
 keyboard1.row('Про группу компаний', 'Связь с менеджером')
 keyboard1.row('Контакты', 'Ответы на популярные вопросы')
 
-keyboard2 = telebot.types.InlineKeyboardMarkup()
-key_gigatrans = telebot.types.InlineKeyboardButton(text='Gigatrans', callback_data='gigatans')
-keyboard2.add(key_gigatrans)
-key_gigacenter = telebot.types.InlineKeyboardButton(text='Gigacenter', callback_data='gigacenter')
-keyboard2.add(key_gigacenter)
+# Клавиатура про GigaGroup
+keyboard_companies = telebot.types.ReplyKeyboardMarkup(True)
+keyboard_companies.row('Gigatrans', 'Gigacenter')
+keyboard_companies.row('Gigacloud', 'Gigasafe')
+keyboard_companies.row('Назад')
 
-keyboard3 = telebot.types.InlineKeyboardMarkup()
-key_company = telebot.types.InlineKeyboardButton(text='Компания', callback_data='gigatans_company')
-keyboard3.add(key_company)
-key_service = telebot.types.InlineKeyboardButton(text='Услуги', url="https://gigatrans.ua/ru/services")
-keyboard3.add(key_service)
+# Клавиатура про GigaTrans
+keyboard_gigatrans= telebot.types.ReplyKeyboardMarkup(True)
+keyboard_gigatrans.row('Послуги', 'Чому нас обирають')
+keyboard_gigatrans.row('Назад')
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
         print(message)
         bot.send_message(message.chat.id, 'Здравствуйте, здесь должна быть краткая информирования, что это за бот и команды', reply_markup=keyboard1)
 
-@bot.message_handler(content_types=['text'])
-def send_text(message):
-        if message.text.lower() == 'про группу компаний':
-                bot.send_message(message.chat.id, 'Информация про групу компаний')
-        elif message.text.lower() == 'связь с менеджером':
-                bot.send_message(message.chat.id, 'Эта кнопка, пока еще в разработке')
-        elif message.text.lower() == 'контакты':
-                bot.send_message(message.chat.id, 'Наш адрес: адрес \nТелефон: телефон \nСайт: https://gigagroup.ua ')
-        elif message.text.lower() == 'ответы на популярные вопросы':
-                print(message)
-                bot.send_message(message.chat.id, 'Выберите компанию: ',reply_markup=keyboard2)
 
-@bot.callback_query_handler(func=lambda call: True)
-def callback_worker(call):
-    if call.data == "gigatans": #call.data это callback_data, которую мы указали при объявлении кнопки
-        bot.send_message(call.message.chat.id, 'Разделы компании Gigatrans', reply_markup=keyboard3)
-    elif call.data == "gigatans_company":
-        bot.send_message(call.message.chat.id, 'Тут информация о компании')
+@bot.message_handler(content_types=['text'])
+def first_screen(message):
+        if message.text.lower() == 'про группу компаний':
+                msg = bot.send_message(message.chat.id, 'Информация про групу компаний', reply_markup=keyboard_companies)
+                bot.register_next_step_handler(msg, about_gigagroup)
+        elif message.text.lower() == 'связь с менеджером':
+                msg = bot.send_message(message.chat.id, 'Эта кнопка, пока еще в разработке',)
+        elif message.text.lower() == 'контакты':
+                msg = bot.send_message(message.chat.id, 'Наш адрес: адрес \nТелефон: телефон \nСайт: https://gigagroup.ua')
+        elif message.text.lower() == 'ответы на популярные вопросы':
+                msg = bot.send_message(message.chat.id, 'Выберите компанию: ', reply_markup=keyboard_companies)
+        else:
+                msg = bot.send_message(message.chat.id, 'Простите, я вас не понял :(')
+        print(message.text)
+
+def about_gigagroup(message):
+        if message.text.lower() == 'gigatrans':
+            msg = bot.send_message(message.chat.id, 'Информация про групу компаний', reply_markup=keyboard_gigatrans)
+            bot.register_next_step_handler(msg, about_gigatrans)
+        elif message.text.lower() == 'gigacenter':
+            msg = bot.send_message(message.chat.id, 'Информация про групу компаний', reply_markup=keyboard_gigatrans)
+        elif message.text.lower() == 'gigacloud':
+            msg = bot.send_message(message.chat.id, 'Информация про групу компаний', reply_markup=keyboard_gigatrans)
+        elif message.text.lower() == 'gigasafe':
+            msg = bot.send_message(message.chat.id, 'Информация про групу компаний', reply_markup=keyboard_gigatrans)
+        elif message.text.lower() == 'назад':
+            msg = bot.send_message(message.chat.id,
+                                   'Здравствуйте, здесь должна быть краткая информирования, что это за бот и команды',
+                                   reply_markup=keyboard1)
+            bot.register_next_step_handler(msg, first_screen)
+
+        print(message.text)
+
+def about_gigatrans(message):
+    if message.text.lower() == 'послуги':
+        msg = bot.send_message(message.chat.id, 'Обирайте послугу та отримуйте додаткову інформацію про неї.', reply_markup=keyboard_gigatrans)
+    elif message.text.lower() == 'чому нас обирають':
+        msg = bot.send_message(message.chat.id, 'Все дуже просто\n'
+        '- У нас найкращі спеціалісти, які постійно вдосконалюють свої професійні навички\n'
+        '- Маємо всі сертифікати якості, такі як ISO та КСЗІ\n'
+        '- Наша технічна підтримка працює для вас 24/7/365\n'
+        '- Для нашої команди немає нездійсненних проектів!\n'
+        'Тому…\n'
+        'GigaTrans – це необмежені можливості для розвитку вашого бізнесу!\n')
+        bot.register_next_step_handler(msg, about_gigatrans)
+    elif message.text.lower() == 'назад':
+        msg = bot.send_message(message.chat.id,'Информация про групу компаний', reply_markup=keyboard_companies)
+        bot.register_next_step_handler(msg, about_gigagroup)
+
+    print(message.text)
 
 bot.polling()

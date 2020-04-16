@@ -144,5 +144,4 @@ def service_order(message):
                                reply_markup=keyboard_service_gigatrans)
         bot.register_next_step_handler(msg, service_gigatrans)
 
-
 bot.polling()

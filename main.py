@@ -1,6 +1,8 @@
 import telebot
 from config import create_menu
 from menu import menu
+from dialog import dialog
+import db_users
 
 # Начальная клавиатура
 bot = telebot.TeleBot('1148414585:AAHNcAE3wct7lvvIPK4lHFosYu9nISa-nBk')
@@ -36,16 +38,17 @@ keyboard_service_order.row('Назад')
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
+        db_users.add_user(message)
         print(message)
         mass = list(menu.keys())
         markup = create_menu(mass, back=False)
-        bot.send_message(message.chat.id, 'Супер, тепер ти з нами :) Тут ти знайдешь відповіді на свої запитання та зможеш зєднатися з менеджером у разі виникнення додаткових питань. Починаємо!', reply_markup=markup)
+        bot.send_message(message.chat.id, dialog['Почати'], reply_markup=markup)
 
 @bot.message_handler(content_types=['text'])
 def first_screen(message):
 
         if message.text.lower() == 'про gigagroup':
-                msg = bot.send_message(message.chat.id, ' GIGAGROUP існує на ринку телекомунікаційних послуг більше 13 років  та представляє собою синергію масштабних ІТ-рішень: телеком-оператор GigaTrans, дата-центр GigaCenter, хмарний оператор GigaCloud та агент з кібербезпеки GigaSafe. Все для надійного зберігання, передачі та резервування ваших даних.', reply_markup=keyboard_companies)
+                msg = bot.send_message(message.chat.id, dialog['ПРО GIGAGROUP'], reply_markup=keyboard_companies)
                 bot.register_next_step_handler(msg, about_gigagroup)
         elif message.text.lower() == 'связь с менеджером':
                 msg = bot.send_message(message.chat.id, 'Эта кнопка, пока еще в разработке',)

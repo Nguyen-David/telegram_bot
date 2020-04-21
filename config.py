@@ -1,4 +1,7 @@
 from telebot import types
+from menu import menu
+from dialog import dialog
+
 
 def create_menu(mass, back=True):
 
@@ -23,3 +26,15 @@ def create_menu(mass, back=True):
         markup.row('Назад')
 
     return markup
+
+
+class Screen:
+    def __init__(self, bot, message):
+        self.bot = bot
+        self.message = message
+
+    def get_current_screen(self, next_step, back):
+        mass = list(menu[self.message.text].keys())
+        markup = create_menu(mass, back=back)
+        msg = self.bot.send_message(self.message.chat.id, dialog[self.message.text], reply_markup=markup, parse_mode="Markdown")
+        self.bot.register_next_step_handler(msg, next_step)

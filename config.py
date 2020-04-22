@@ -33,8 +33,22 @@ class Screen:
         self.bot = bot
         self.message = message
 
-    def get_current_screen(self, next_step, back):
-        mass = list(menu[self.message.text].keys())
+    def get_first_screen(self, mass, next_step, back, msg_text):
+        print(msg_text)
+        markup = create_menu(mass, back=back)
+        msg = self.bot.send_message(self.message.chat.id, dialog[msg_text], reply_markup=markup, parse_mode="Markdown")
+        self.bot.register_next_step_handler(msg, next_step)
+
+    def get_current_screen(self, mass, next_step, back):
         markup = create_menu(mass, back=back)
         msg = self.bot.send_message(self.message.chat.id, dialog[self.message.text], reply_markup=markup, parse_mode="Markdown")
         self.bot.register_next_step_handler(msg, next_step)
+
+    def get_previous_screen(self, mass, prev_step, back, msg_text):
+        markup = create_menu(mass, back=back)
+        msg = self.bot.send_message(self.message.chat.id, dialog[msg_text], reply_markup=markup, parse_mode="Markdown")
+        self.bot.register_next_step_handler(msg, prev_step)
+
+    def get_error_screen(self, current_step):
+        msg = self.bot.send_message(self.message.chat.id, 'Простите я вас не понял(', parse_mode="Markdown")
+        self.bot.register_next_step_handler(msg, current_step)

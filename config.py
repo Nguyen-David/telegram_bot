@@ -49,6 +49,10 @@ class Screen:
         msg = self.bot.send_message(self.message.chat.id, dialog[msg_text], reply_markup=markup, parse_mode="Markdown")
         self.bot.register_next_step_handler(msg, prev_step)
 
+    def get_recursive_screen(self, current_step):
+        msg = self.bot.send_message(self.message.chat.id, dialog[self.message.text], parse_mode="Markdown")
+        self.bot.register_next_step_handler(msg, current_step)
+
     def get_error_screen(self, current_step):
         msg = self.bot.send_message(self.message.chat.id, 'Простите я вас не понял(', parse_mode="Markdown")
         self.bot.register_next_step_handler(msg, current_step)

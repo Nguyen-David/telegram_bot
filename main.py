@@ -58,12 +58,14 @@ def first_screen(message):
         elif message.text.lower() == 'топ-послуги':
             mass = list(menu['ТОП-ПОСЛУГИ'])
             screen_item.get_current_screen(mass, top_service, True)
-        elif message.text.lower() == 'контакты':
-                msg = bot.send_message(message.chat.id, 'Наш адрес: адрес \nТелефон: телефон \nСайт: https://gigagroup.ua', parse_mode="Markdown")
-        elif message.text.lower() == 'ответы на популярные вопросы':
-                msg = bot.send_message(message.chat.id, 'Выберите компанию: ', reply_markup=keyboard_companies, parse_mode="Markdown")
+        elif message.text.lower() == 'контакти':
+            screen_item.get_recursive_screen(first_screen)
+        elif message.text.lower() == 'найпопулярніші питання':
+            mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
+            screen_item.get_current_screen(mass, top_question, True)
+        elif message.text.lower() == 'кар\'єра':
+            screen_item.get_recursive_screen(first_screen)
         else:
-                screen_item = Screen(bot, message)
                 screen_item.get_error_screen(first_screen)
         print(message.text)
 
@@ -342,5 +344,28 @@ def service_top_order(message, company, service):
         screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ')
     else:
         screen_item.get_error_screen(service_top_order)
+
+def top_question(message):
+    screen_item = Screen(bot, message)
+
+    if message.text.lower() == 'gigatrans':
+        mass = list(menu['ПРО GIGAGROUP']['GIGATRANS'])
+        screen_item.get_current_screen(mass, about_gigatrans, True)
+    elif message.text.lower() == 'gigacenter':
+        mass = list(menu['ПРО GIGAGROUP']['GIGACENTER'])
+        screen_item.get_current_screen(mass, about_gigacenter, True)
+    elif message.text.lower() == 'gigacloud':
+        mass = list(menu['ПРО GIGAGROUP']['GIGACLOUD'])
+        screen_item.get_current_screen(mass, about_gigacloud, True)
+    elif message.text.lower() == 'gigasafe':
+        mass = list(menu['ПРО GIGAGROUP']['GIGASAFE'])
+        screen_item.get_current_screen(mass, about_gigasafe, True)
+    elif message.text.lower() == 'назад':
+        mass = list(menu.keys())
+        screen_item.get_previous_screen(mass, first_screen, False, 'Почати')
+    else:
+        screen_item.get_error_screen(about_gigagroup)
+
+    print(message.text)
 
 bot.polling()

@@ -48,7 +48,7 @@ def start_message(message):
         screen_item = Screen(bot, message)
         screen_item.get_first_screen(mass, first_screen, False, 'Почати')
 
-@bot.message_handler(content_types=['text'])
+@bot.message_handler(content_types=['text','contact'])
 def first_screen(message):
         screen_item = Screen(bot, message)
 
@@ -58,6 +58,13 @@ def first_screen(message):
         elif message.text.lower() == 'топ-послуги':
             mass = list(menu['ТОП-ПОСЛУГИ'])
             screen_item.get_current_screen(mass, top_service, True)
+        elif message.text.lower() == 'підключити менеджера':
+            keyboard = telebot.types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+            button_phone = telebot.types.KeyboardButton(text="Отправить номер телефона", request_contact=True)
+            button_geo = telebot.types.KeyboardButton(text="Назад")
+            keyboard.add(button_phone, button_geo)
+            msg = bot.send_message(message.chat.id, dialog['ПІДКЛЮЧИТИ МЕНЕДЖЕРА'],reply_markup=keyboard, parse_mode="Markdown")
+            bot.register_next_step_handler(msg, add_manager)
         elif message.text.lower() == 'контакти':
             screen_item.get_recursive_screen(first_screen)
         elif message.text.lower() == 'найпопулярніші питання':
@@ -344,6 +351,24 @@ def service_top_order(message, company, service):
         screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ')
     else:
         screen_item.get_error_screen(service_top_order)
+
+def add_manager(message):
+    print(message)
+    screen_item = Screen(bot, message)
+
+    if (message.contact):
+        db_users.add_message_from_contact(message)
+        mass = list(menu.keys())
+        screen_item.get_previous_screen(mass, first_screen, False, 'ЗАЯВА МЕНЕДЖЕРУ')
+    else:
+        if message.text.lower() != 'назад':
+            db_users.add_message(message)
+            mass = list(menu.keys())
+            screen_item.get_previous_screen(mass, first_screen, False, 'ЗАЯВА МЕНЕДЖЕРУ')
+        else:
+            mass = list(menu.keys())
+            screen_item.get_previous_screen(mass, first_screen, False, 'Почати')
+
 
 def top_question(message):
     screen_item = Screen(bot, message)

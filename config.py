@@ -56,3 +56,12 @@ class Screen:
     def get_error_screen(self, current_step):
         msg = self.bot.send_message(self.message.chat.id, 'Простите я вас не понял(', parse_mode="Markdown")
         self.bot.register_next_step_handler(msg, current_step)
+
+    def get_add_manager_screen(self, next_step):
+        keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+        button_phone = types.KeyboardButton(text="Отправить номер телефона", request_contact=True)
+        button_back = types.KeyboardButton(text="Назад")
+        keyboard.add(button_phone, button_back)
+        msg = self.bot.send_message(self.message.chat.id, dialog[self.message.text], reply_markup=keyboard,
+                               parse_mode="Markdown")
+        self.bot.register_next_step_handler(msg, next_step)

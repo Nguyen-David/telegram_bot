@@ -48,6 +48,10 @@ def start_message(message):
         screen_item = Screen(bot, message)
         screen_item.get_first_screen(mass, first_screen, False, 'Почати')
 
+@bot.message_handler(content_types=['sticker'])
+def sticker_id(message):
+    print(message)
+
 @bot.message_handler(content_types=['text','contact'])
 def first_screen(message):
         screen_item = Screen(bot, message)
@@ -59,12 +63,7 @@ def first_screen(message):
             mass = list(menu['ТОП-ПОСЛУГИ'])
             screen_item.get_current_screen(mass, top_service, True)
         elif message.text.lower() == 'підключити менеджера':
-            keyboard = telebot.types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
-            button_phone = telebot.types.KeyboardButton(text="Отправить номер телефона", request_contact=True)
-            button_geo = telebot.types.KeyboardButton(text="Назад")
-            keyboard.add(button_phone, button_geo)
-            msg = bot.send_message(message.chat.id, dialog['ПІДКЛЮЧИТИ МЕНЕДЖЕРА'],reply_markup=keyboard, parse_mode="Markdown")
-            bot.register_next_step_handler(msg, add_manager)
+            screen_item.get_add_manager_screen(add_manager)
         elif message.text.lower() == 'контакти':
             screen_item.get_recursive_screen(first_screen)
         elif message.text.lower() == 'найпопулярніші питання':
@@ -73,7 +72,8 @@ def first_screen(message):
         elif message.text.lower() == 'кар\'єра':
             screen_item.get_recursive_screen(first_screen)
         else:
-                screen_item.get_error_screen(first_screen)
+            mass = list(menu.keys())
+            screen_item.get_first_screen(mass, first_screen, False, 'ОШИБКА')
         print(message.text)
 
 def about_gigagroup(message):
@@ -357,6 +357,7 @@ def add_manager(message):
     screen_item = Screen(bot, message)
 
     if (message.contact):
+        print(1)
         db_users.add_message_from_contact(message)
         mass = list(menu.keys())
         screen_item.get_previous_screen(mass, first_screen, False, 'ЗАЯВА МЕНЕДЖЕРУ')
@@ -374,8 +375,11 @@ def top_question(message):
     screen_item = Screen(bot, message)
 
     if message.text.lower() == 'gigatrans':
-        mass = list(menu['ПРО GIGAGROUP']['GIGATRANS'])
-        screen_item.get_current_screen(mass, about_gigatrans, True)
+        keyboard = telebot.types.InlineKeyboardMarkup(row_width=1)
+        callback_button = telebot.types.InlineKeyboardButton(text="ЯКІ ДІЮТЬ ТАРИФИ НА ПІДКЛЮЧЕННЯ ІНТЕРНЕТУ?", callback_data="gigatrans1")
+        callback_button2 = telebot.types.InlineKeyboardButton(text="ЧИ МОЖЕТЕ ВИ ВИКОНАТИ МІЖНАРОДНЕ ПІДКЛЮЧЕННЯ? ", callback_data="gigatrans2")
+        keyboard.add(callback_button, callback_button2)
+        bot.send_message(message.chat.id, "*НАЙПОПУЛЯРНІШІ ПИТАННЯ GIGATRANS*", reply_markup=keyboard,parse_mode="Markdown")
     elif message.text.lower() == 'gigacenter':
         mass = list(menu['ПРО GIGAGROUP']['GIGACENTER'])
         screen_item.get_current_screen(mass, about_gigacenter, True)
@@ -392,5 +396,22 @@ def top_question(message):
         screen_item.get_error_screen(about_gigagroup)
 
     print(message.text)
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_inline(call):
+    screen_item = Screen(bot, call.message)
+
+    if call.data == "gigatrans1":
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text=dialog['ЯКІ ДІЮТЬ ТАРИФИ НА ПІДКЛЮЧЕННЯ ІНТЕРНЕТУ'])
+        bot.register_next_step_handler(call.message, top_question)
+    elif call.data == "gigatrans2":
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                              text=dialog['ЧИ МОЖЕТЕ ВИ ВИКОНАТИ МІЖНАРОДНЕ ПІДКЛЮЧЕННЯ'])
+        bot.register_next_step_handler(call.message, top_question)
+    else:
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                              text=dialog['ОШИБКА ВОПРОСА'])
+        mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
+        screen_item.get_previous_screen(mass, top_question, True, 'Почати')
 
 bot.polling()

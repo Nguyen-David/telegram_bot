@@ -1,6 +1,6 @@
 from telebot import types
 from menu import menu
-from dialog import dialog
+from dialog import dialog, question
 
 
 def create_menu(mass, back=True):
@@ -24,6 +24,22 @@ def create_menu(mass, back=True):
 
     if back == True:
         markup.row('Назад')
+
+    return markup
+
+def create_inline_menu(mass, company):
+    markup = types.InlineKeyboardMarkup(row_width=1)
+
+    index = 1
+    while len(mass) > 0:
+        try:
+            cut = mass[:1]
+            callback_button = types.InlineKeyboardButton(text=cut[0], callback_data=company + str(index))
+            markup.add(callback_button)
+            del mass[:1]
+            index += 1
+        except:
+            print('WTF')
 
     return markup
 
@@ -65,3 +81,15 @@ class Screen:
         msg = self.bot.send_message(self.message.chat.id, dialog[self.message.text], reply_markup=keyboard,
                                parse_mode="Markdown")
         self.bot.register_next_step_handler(msg, next_step)
+
+    def get_popular_question_screen(self, mass, company, next_step):
+        markup = create_inline_menu(mass, company)
+        msg = self.bot.send_message(self.message.chat.id, "*НАЙПОПУЛЯРНІШІ ПИТАННЯ *" + "*" + self.message.text + "*", reply_markup=markup, parse_mode="Markdown")
+        self.bot.register_next_step_handler(msg, next_step)
+
+    def get_popular_question_edit_screen(self,  msg_text, back):
+        mass = list(['ПОВЕРНУТИСЯ ДО ПИТАНЬ'])
+        markup = create_menu(mass, back=back)
+        self.bot.edit_message_text(chat_id=self.message.chat.id, message_id=self.message.message_id,
+                              text=question[msg_text], parse_mode="Markdown")
+        self.bot.send_message(self.message.chat.id, dialog['ПОВЕРНУТИСЯ ДО ПИТАНЬ'], reply_markup=markup, parse_mode="Markdown")

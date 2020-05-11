@@ -1,6 +1,6 @@
 import telebot
-from config import create_menu, Screen
-from menu import menu
+from config import create_menu,create_inline_menu, Screen
+from menu import menu, inline_menu
 from dialog import dialog
 import db_users
 
@@ -71,6 +71,9 @@ def first_screen(message):
             screen_item.get_current_screen(mass, top_question, True)
         elif message.text.lower() == 'кар\'єра':
             screen_item.get_recursive_screen(first_screen)
+        elif message.text.lower() == 'повернутися до питань':
+            mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
+            screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
         else:
             mass = list(menu.keys())
             screen_item.get_first_screen(mass, first_screen, False, 'ОШИБКА')
@@ -91,6 +94,9 @@ def about_gigagroup(message):
         elif message.text.lower() == 'gigasafe':
             mass = list(menu['ПРО GIGAGROUP']['GIGASAFE'])
             screen_item.get_current_screen(mass, about_gigasafe, True)
+        elif message.text.lower() == 'повернутися до питань':
+            mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
+            screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
         elif message.text.lower() == 'назад':
             mass = list(menu.keys())
             screen_item.get_previous_screen(mass, first_screen, False, 'Почати')
@@ -108,6 +114,9 @@ def about_gigatrans(message):
     elif message.text.lower() == 'чому нас обирають':
         msg = bot.send_message(message.chat.id, dialog['ЧОМУ НАС ОБИРАЮТЬ GIGATRANS'], parse_mode="Markdown")
         bot.register_next_step_handler(msg, about_gigatrans)
+    elif message.text.lower() == 'повернутися до питань':
+        mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
+        screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
     elif message.text.lower() == 'назад':
         mass = list(menu['ПРО GIGAGROUP'])
         screen_item.get_previous_screen(mass, about_gigagroup, True, 'ПРО GIGAGROUP')
@@ -151,6 +160,9 @@ def about_gigacenter(message):
     elif message.text.lower() == 'чому нас обирають':
         msg = bot.send_message(message.chat.id, dialog['ЧОМУ НАС ОБИРАЮТЬ GIGACENTER'], parse_mode="Markdown")
         bot.register_next_step_handler(msg, about_gigacenter)
+    elif message.text.lower() == 'повернутися до питань':
+        mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
+        screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
     elif message.text.lower() == 'назад':
         mass = list(menu['ПРО GIGAGROUP'])
         screen_item.get_previous_screen(mass, about_gigagroup, True, 'ПРО GIGAGROUP')
@@ -191,6 +203,9 @@ def about_gigacloud(message):
     elif message.text.lower() == 'чому нас обирають':
         msg = bot.send_message(message.chat.id, dialog['ЧОМУ НАС ОБИРАЮТЬ GIGACLOUD'], parse_mode="Markdown")
         bot.register_next_step_handler(msg, about_gigacloud)
+    elif message.text.lower() == 'повернутися до питань':
+        mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
+        screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
     elif message.text.lower() == 'назад':
         mass = list(menu['ПРО GIGAGROUP'])
         screen_item.get_previous_screen(mass, about_gigagroup, True, 'ПРО GIGAGROUP')
@@ -231,6 +246,9 @@ def about_gigasafe(message):
     elif message.text.lower() == 'чому нас обирають':
         msg = bot.send_message(message.chat.id, dialog['ЧОМУ НАС ОБИРАЮТЬ GIGASAFE'], parse_mode="Markdown")
         bot.register_next_step_handler(msg, about_gigasafe)
+    elif message.text.lower() == 'повернутися до питань':
+        mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
+        screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
     elif message.text.lower() == 'назад':
         mass = list(menu['ПРО GIGAGROUP'])
         screen_item.get_previous_screen(mass, about_gigagroup, True, 'ПРО GIGAGROUP')
@@ -316,6 +334,9 @@ def top_service(message):
     elif message.text.lower() == 'будівництво волз':
         msg = bot.send_message(message.chat.id, dialog['БУДІВНИЦТВО ВОЛЗ'], reply_markup=keyboard_service_order,parse_mode="Markdown")
         bot.register_next_step_handler(msg, service_top_order, 'GIGATRANS', 'БУДІВНИЦТВО ВОЛЗ')
+    elif message.text.lower() == 'повернутися до питань':
+        mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
+        screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
     elif message.text.lower() == 'назад':
         mass = list(menu.keys())
         screen_item.get_previous_screen(mass, first_screen, False, 'Почати')
@@ -375,20 +396,20 @@ def top_question(message):
     screen_item = Screen(bot, message)
 
     if message.text.lower() == 'gigatrans':
-        keyboard = telebot.types.InlineKeyboardMarkup(row_width=1)
-        callback_button = telebot.types.InlineKeyboardButton(text="ЯКІ ДІЮТЬ ТАРИФИ НА ПІДКЛЮЧЕННЯ ІНТЕРНЕТУ?", callback_data="gigatrans1")
-        callback_button2 = telebot.types.InlineKeyboardButton(text="ЧИ МОЖЕТЕ ВИ ВИКОНАТИ МІЖНАРОДНЕ ПІДКЛЮЧЕННЯ? ", callback_data="gigatrans2")
-        keyboard.add(callback_button, callback_button2)
-        bot.send_message(message.chat.id, "*НАЙПОПУЛЯРНІШІ ПИТАННЯ GIGATRANS*", reply_markup=keyboard,parse_mode="Markdown")
+        mass = list(inline_menu['GIGATRANS'])
+        screen_item.get_popular_question_screen(mass, 'gigatrans', top_question)
     elif message.text.lower() == 'gigacenter':
-        mass = list(menu['ПРО GIGAGROUP']['GIGACENTER'])
-        screen_item.get_current_screen(mass, about_gigacenter, True)
+        mass = list(inline_menu['GIGACENTER'])
+        screen_item.get_popular_question_screen(mass, 'gigacenter', top_question)
     elif message.text.lower() == 'gigacloud':
-        mass = list(menu['ПРО GIGAGROUP']['GIGACLOUD'])
-        screen_item.get_current_screen(mass, about_gigacloud, True)
+        mass = list(inline_menu['GIGACLOUD'])
+        screen_item.get_popular_question_screen(mass, 'gigacloud', top_question)
     elif message.text.lower() == 'gigasafe':
-        mass = list(menu['ПРО GIGAGROUP']['GIGASAFE'])
-        screen_item.get_current_screen(mass, about_gigasafe, True)
+        mass = list(inline_menu['GIGASAFE'])
+        screen_item.get_popular_question_screen(mass, 'gigasafe', top_question)
+    elif message.text.lower() == 'повернутися до питань':
+        mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
+        screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
     elif message.text.lower() == 'назад':
         mass = list(menu.keys())
         screen_item.get_previous_screen(mass, first_screen, False, 'Почати')
@@ -400,14 +421,74 @@ def top_question(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
     screen_item = Screen(bot, call.message)
+    print(call.message)
+    # GIGATRANS QUESTION
 
     if call.data == "gigatrans1":
-        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text=dialog['ЯКІ ДІЮТЬ ТАРИФИ НА ПІДКЛЮЧЕННЯ ІНТЕРНЕТУ'])
-        bot.register_next_step_handler(call.message, top_question)
+        screen_item.get_popular_question_edit_screen('ЯКІ ДІЮТЬ ТАРИФИ НА ПІДКЛЮЧЕННЯ ІНТЕРНЕТУ?', False)
     elif call.data == "gigatrans2":
-        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                              text=dialog['ЧИ МОЖЕТЕ ВИ ВИКОНАТИ МІЖНАРОДНЕ ПІДКЛЮЧЕННЯ'])
-        bot.register_next_step_handler(call.message, top_question)
+        screen_item.get_popular_question_edit_screen('ЧИ МОЖЕТЕ ВИ ВИКОНАТИ МІЖНАРОДНЕ ПІДКЛЮЧЕННЯ?', False)
+    elif call.data == "gigatrans3":
+        screen_item.get_popular_question_edit_screen('ЯКІ ТЕРМІНИ ПІДКЛЮЧЕННЯ ІНТЕРНЕТУ?', False)
+    elif call.data == "gigatrans4":
+        screen_item.get_popular_question_edit_screen('ЧИ ГАРАНТУЄТЕ ВИ ШВИДКІСТЬ ІНТЕРНЕТУ 100 ГБІТ/С?', False)
+    elif call.data == "gigatrans5":
+        screen_item.get_popular_question_edit_screen('ЯКУ Я ОТРИМАЮ ІР-АДРЕСУ, СТАТИЧНУ ЧИ ДИНАМІЧНУ?', False)
+    elif call.data == "gigatrans6":
+        screen_item.get_popular_question_edit_screen('ЯКІ ЛІНІЇ ЗВ\'ЯЗКУ ВИ ВИКОРИСТОВУЄТЕ ДЛЯ ПІДКЛЮЧЕННЯ?', False)
+    elif call.data == "gigatrans7":
+        screen_item.get_popular_question_edit_screen('ЧИ Є У ВАС СЕРТИФІКАТ БЕЗПЕКИ КСЗІ?', False)
+    elif call.data == "gigatrans8":
+        screen_item.get_popular_question_edit_screen('ЧИ Є У ВАС СЕРТИФІКАТ ISO?', False)
+
+    # GIGACENTER QUESTION
+
+    elif call.data == "gigacenter1":
+        screen_item.get_popular_question_edit_screen('ЯКІ ТАРИФИ НА КАЛОКЕЙШН?', False)
+    elif call.data == "gigacenter2":
+        screen_item.get_popular_question_edit_screen('ЯКИЙ РІВЕНЬ ВІДМОВОСТІЙКОСТІ ОБЛАДНАННЯ?', False)
+    elif call.data == "gigacenter3":
+        screen_item.get_popular_question_edit_screen('ЧИ Є У ВАС РЕЗЕРВУВАННЯ ІНФРАСТРУКТУРИ?', False)
+    elif call.data == "gigacenter4":
+        screen_item.get_popular_question_edit_screen('ЧИ Є У ВАС СЕРТИФІКАТИ ЯКОСТІ ISO?', False)
+    elif call.data == "gigacenter5":
+        screen_item.get_popular_question_edit_screen('ЧИ Є У ВАС ПОСЛУГА SMART HANDS?', False)
+    elif call.data == "gigacenter6":
+        screen_item.get_popular_question_edit_screen('ЧИ МОЖУ Я ВІДВІДАТИ ДАТА-ЦЕНТР?', False)
+    elif call.data == "gigacenter7":
+        screen_item.get_popular_question_edit_screen('ЧИ ВІДПОВІДАЄТЕ ВИ СТАНДАРТУ НБУ?', False)
+
+        # GIGACLOUD QUESTION
+
+    elif call.data == "gigacloud1":
+        screen_item.get_popular_question_edit_screen('НА ЧОМУ ПОБУДОВАНА ІНФРАСТРУКТУРА ХМАРИ?', False)
+    elif call.data == "gigacloud2":
+        screen_item.get_popular_question_edit_screen('ДЕ РОЗМІЩЕНА ІНФРАСТРУКТУРА GIGACLOUD?', False)
+    elif call.data == "gigacloud3":
+        screen_item.get_popular_question_edit_screen('ЧИ Є У ВАС СЕРТИФІКАТИ КСЗІ ТА ISO?', False)
+    elif call.data == "gigacloud4":
+        screen_item.get_popular_question_edit_screen('ЧИ МОЖУ Я САМОСТІЙНО УПРАВЛЯТИ ПРАВАМИ ДОСТУПУ ДО ВІРТУАЛЬНИХ СЕРВЕРІВ?', False)
+    elif call.data == "gigacloud5":
+        screen_item.get_popular_question_edit_screen('ЧИ ДОПОМАГАЄТЕ ВИ З ПЕРЕНЕСЕННЯМ СЕРВІСІВ ДО ХМАРИ?', False)
+    elif call.data == "gigacloud6":
+        screen_item.get_popular_question_edit_screen('ЧИ НАДАЄТЕ ВИ ТЕСТОВИЙ ПЕРІОД?', False)
+    elif call.data == "gigacloud7":
+        screen_item.get_popular_question_edit_screen('ЧИ Є У ВАС РЕЗЕРВУВАННЯ ІНФРАСТРУКТУРИ?GIGACLOUD', False)
+
+    # GIGASAFE QUESTION
+
+    elif call.data == "gigasafe1":
+        screen_item.get_popular_question_edit_screen('ЯКИМИ ДОСВІДОМ ВОЛОДІЄ КОМАНДА?', False)
+    elif call.data == "gigasafe2":
+        screen_item.get_popular_question_edit_screen('ЯКІ СЕРТИФІКАТИ МАЮТЬ СПЕЦІАЛІСТИ GIGASAFE?', False)
+    elif call.data == "gigasafe3":
+        screen_item.get_popular_question_edit_screen('ЯК ПЕРЕВІРИТИ ЧИ Є КІБЕРЗАГРОЗИ ДЛЯ МОГО БІЗНЕСУ?', False)
+    elif call.data == "gigasafe4":
+        screen_item.get_popular_question_edit_screen('ЯК GIGASAFE ЗАБЕЗПЕЧУЄ БЕЗПЕКУ ДАНИХ ЗАМОВНИКА?', False)
+    elif call.data == "gigasafe5":
+        screen_item.get_popular_question_edit_screen('ЯК БІЗНЕС МОЖЕ ЗАХИСТИТИСЯ ВІД ЗАГРОЗ ПРИ ВІДДАЛЕНІЙ РОБОТІ?', False)
+    elif call.data == "gigasafe6":
+        screen_item.get_popular_question_edit_screen('ЯКА ВАРТІСТЬ ВАШИХ ПОСЛУГ?', False)
     else:
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                               text=dialog['ОШИБКА ВОПРОСА'])

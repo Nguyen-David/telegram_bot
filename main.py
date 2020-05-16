@@ -1,44 +1,14 @@
 import telebot
-from config import create_menu,create_inline_menu, Screen
+from config import Screen, bot, markdown
 from menu import menu, inline_menu
 from dialog import dialog
 import db_users
-
-# Начальная клавиатура
-bot = telebot.TeleBot('1148414585:AAHNcAE3wct7lvvIPK4lHFosYu9nISa-nBk')
-
-keyboard1 = telebot.types.ReplyKeyboardMarkup(True)
-keyboard1.row('ПРО GIGAGROUP', 'Связь с менеджером')
-keyboard1.row('Контакты', 'Ответы на популярные вопросы')
-
-# Клавиатура про GigaGroup
-keyboard_companies = telebot.types.ReplyKeyboardMarkup(True)
-keyboard_companies.row('Gigatrans', 'Gigacenter')
-keyboard_companies.row('Gigacloud', 'Gigasafe')
-keyboard_companies.row('Назад')
-
-# Клавиатура про GigaTrans
-keyboard_gigatrans= telebot.types.ReplyKeyboardMarkup(True)
-keyboard_gigatrans.row('Послуги', 'Чому нас обирають')
-keyboard_gigatrans.row('Назад')
-
-# Клавиатура услуг Gigatrans
-keyboard_service_gigatrans= telebot.types.ReplyKeyboardMarkup(True)
-keyboard_service_gigatrans.row('ІНТЕРНЕТ ДЛЯ БІЗНЕСУ', 'КАНАЛИ ПЕРЕДАЧІ ДАНИХ ')
-keyboard_service_gigatrans.row('ІР-ТЕЛЕФОНІЯ ТА ВІРТУАЛЬНА АТС', 'ЗАХИСТ ВІД DDoS-АТАК')
-keyboard_service_gigatrans.row('МІЖОПЕРАТОРСЬКИЙ БІЗНЕС', 'БУДІВНИЦТВО ВОЛЗ')
-keyboard_service_gigatrans.row('Назад')
 
 # Клавиатура заказа услуги
 keyboard_service_order= telebot.types.ReplyKeyboardMarkup(True)
 keyboard_service_order.row('Замовити послугу')
 keyboard_service_order.row('Назад')
 
-markdown = """
-    *bold text*
-    _italic text_
-    [text](URL)
-    """
 
 @bot.message_handler(commands=['start'])
 def start_message(message):

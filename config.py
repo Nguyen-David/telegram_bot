@@ -1,7 +1,15 @@
+import telebot
 from telebot import types
-from menu import menu
 from dialog import dialog, question
 
+# Начальная клавиатура
+bot = telebot.TeleBot('1148414585:AAHNcAE3wct7lvvIPK4lHFosYu9nISa-nBk')
+
+markdown = """
+    *bold text*
+    _italic text_
+    [text](URL)
+    """
 
 def create_menu(mass, back=True):
 

@@ -31,7 +31,7 @@ def create_menu(mass, back=True):
                 print('WTF')
 
     if back == True:
-        markup.row('Назад')
+        markup.row('⬅️Назад')
 
     return markup
 
@@ -84,7 +84,7 @@ class Screen:
     def get_add_manager_screen(self, next_step):
         keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
         button_phone = types.KeyboardButton(text="Отправить номер телефона", request_contact=True)
-        button_back = types.KeyboardButton(text="Назад")
+        button_back = types.KeyboardButton(text="⬅️Назад")
         keyboard.add(button_phone, button_back)
         msg = self.bot.send_message(self.message.chat.id, dialog[self.message.text], reply_markup=keyboard,
                                parse_mode="Markdown")

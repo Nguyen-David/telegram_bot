@@ -7,7 +7,7 @@ import db_users
 # Клавиатура заказа услуги
 keyboard_service_order = telebot.types.ReplyKeyboardMarkup(True)
 keyboard_service_order.row('Замовити послугу')
-keyboard_service_order.row('Назад')
+keyboard_service_order.row('⬅️Назад')
 
 
 @bot.message_handler(commands=['start'])
@@ -30,12 +30,12 @@ def first_screen(message):
             if message.text.lower() == 'про gigagroup':
                 mass = list(menu['ПРО GIGAGROUP'])
                 screen_item.get_current_screen(mass, about_gigagroup, True)
-            elif message.text.lower() == 'топ-послуги':
-                mass = list(menu['ТОП-ПОСЛУГИ'])
+            elif message.text.lower() == 'топ-послуги 🏆':
+                mass = list(menu['ТОП-ПОСЛУГИ 🏆'])
                 screen_item.get_current_screen(mass, top_service, True)
-            elif message.text.lower() == 'підключити менеджера':
+            elif message.text.lower() == 'підключити менеджера ✍️':
                 screen_item.get_add_manager_screen(add_manager)
-            elif message.text.lower() == 'контакти':
+            elif message.text.lower() == '📩 контакти 📞':
                 screen_item.get_recursive_screen(first_screen)
             elif message.text.lower() == 'найпопулярніші питання':
                 mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
@@ -73,7 +73,7 @@ def about_gigagroup(message):
             elif message.text.lower() == 'повернутися до питань':
                 mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
                 screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
-            elif message.text.lower() == 'назад':
+            elif message.text.lower() == '⬅️назад':
                 mass = list(menu.keys())
                 screen_item.get_previous_screen(mass, first_screen, False, 'Почати')
             else:
@@ -99,7 +99,7 @@ def about_gigatrans(message):
         elif message.text.lower() == 'повернутися до питань':
             mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
             screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
-        elif message.text.lower() == 'назад':
+        elif message.text.lower() == '⬅️назад':
             mass = list(menu['ПРО GIGAGROUP'])
             screen_item.get_previous_screen(mass, about_gigagroup, True, 'ПРО GIGAGROUP')
         else:
@@ -133,7 +133,7 @@ def service_gigatrans(message):
         elif message.text.lower() == 'будівництво волз':
             msg = bot.send_message(message.chat.id, dialog['БУДІВНИЦТВО ВОЛЗ'], reply_markup=keyboard_service_order, parse_mode="Markdown")
             bot.register_next_step_handler(msg, service_order, 'GIGATRANS', 'БУДІВНИЦТВО ВОЛЗ')
-        elif message.text.lower() == 'назад':
+        elif message.text.lower() == '⬅️назад':
             mass = list(menu['ПРО GIGAGROUP']['GIGATRANS'])
             screen_item.get_previous_screen(mass, about_gigatrans, True, 'GIGATRANS')
         else:
@@ -157,7 +157,7 @@ def about_gigacenter(message):
         elif message.text.lower() == 'повернутися до питань':
             mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
             screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
-        elif message.text.lower() == 'назад':
+        elif message.text.lower() == '⬅️назад':
             mass = list(menu['ПРО GIGAGROUP'])
             screen_item.get_previous_screen(mass, about_gigagroup, True, 'ПРО GIGAGROUP')
         else:
@@ -187,7 +187,7 @@ def service_gigacenter(message):
         elif message.text.lower() == 'оренда екранованої шафи':
             msg = bot.send_message(message.chat.id, dialog['ОРЕНДА ЕКРАНОВАНОЇ ШАФИ'], reply_markup=keyboard_service_order,parse_mode="Markdown")
             bot.register_next_step_handler(msg, service_order, 'GIGACENTER', 'ІНТЕРНЕТ ДЛЯ БІЗНЕСУ')
-        elif message.text.lower() == 'назад':
+        elif message.text.lower() == '⬅️назад':
             mass = list(menu['ПРО GIGAGROUP']['GIGACENTER'])
             screen_item.get_previous_screen(mass, about_gigacenter, True, 'GIGACENTER')
         else:
@@ -210,7 +210,7 @@ def about_gigacloud(message):
         elif message.text.lower() == 'повернутися до питань':
             mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
             screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
-        elif message.text.lower() == 'назад':
+        elif message.text.lower() == '⬅️назад':
             mass = list(menu['ПРО GIGAGROUP'])
             screen_item.get_previous_screen(mass, about_gigagroup, True, 'ПРО GIGAGROUP')
         else:
@@ -239,7 +239,7 @@ def service_gigacloud(message):
         elif message.text.lower() == 'baas':
             msg = bot.send_message(message.chat.id, dialog['BaaS'], reply_markup=keyboard_service_order,parse_mode="Markdown")
             bot.register_next_step_handler(msg, service_order, 'GIGACLOUD', 'ІНТЕРНЕТ ДЛЯ БІЗНЕСУ')
-        elif message.text.lower() == 'назад':
+        elif message.text.lower() == '⬅️назад':
             mass = list(menu['ПРО GIGAGROUP']['GIGACLOUD'])
             screen_item.get_previous_screen(mass, about_gigacloud, True, 'GIGACLOUD')
         else:
@@ -262,7 +262,7 @@ def about_gigasafe(message):
         elif message.text.lower() == 'повернутися до питань':
             mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
             screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
-        elif message.text.lower() == 'назад':
+        elif message.text.lower() == '⬅️назад':
             mass = list(menu['ПРО GIGAGROUP'])
             screen_item.get_previous_screen(mass, about_gigagroup, True, 'ПРО GIGAGROUP')
         else:
@@ -291,7 +291,7 @@ def service_gigasafe(message):
         elif message.text.lower() == 'відновлення на покращення':
             msg = bot.send_message(message.chat.id, dialog['ВІДНОВЛЕННЯ НА ПОКРАЩЕННЯ'], reply_markup=keyboard_service_order,parse_mode="Markdown")
             bot.register_next_step_handler(msg, service_order, 'GIGASAFE', 'ІНТЕРНЕТ ДЛЯ БІЗНЕСУ')
-        elif message.text.lower() == 'назад':
+        elif message.text.lower() == '⬅️назад':
             mass = list(menu['ПРО GIGAGROUP']['GIGASAFE'])
             screen_item.get_previous_screen(mass, about_gigasafe, True, 'GIGASAFE')
         else:
@@ -362,7 +362,7 @@ def top_service(message):
         elif message.text.lower() == 'повернутися до питань':
             mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
             screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
-        elif message.text.lower() == 'назад':
+        elif message.text.lower() == '⬅️назад':
             mass = list(menu.keys())
             screen_item.get_previous_screen(mass, first_screen, False, 'Почати')
         else:
@@ -379,26 +379,26 @@ def service_top_order(message, company, service):
     try:
         if message.text.lower() == 'замовити послугу':
             if service == 'ІНТЕРНЕТ ДЛЯ БІЗНЕСУ':
-                mass = list(menu['ТОП-ПОСЛУГИ'])
-                screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ')
+                mass = list(menu['ТОП-ПОСЛУГИ 🏆'])
+                screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ 🏆')
             elif service == 'ОРЕНДА ЕКРАНОВАНОЇ ШАФИ':
-                mass = list(menu['ТОП-ПОСЛУГИ'])
-                screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ')
+                mass = list(menu['ТОП-ПОСЛУГИ 🏆'])
+                screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ 🏆')
             elif service == 'PRIVATE CLOUD':
-                mass = list(menu['ТОП-ПОСЛУГИ'])
-                screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ')
+                mass = list(menu['ТОП-ПОСЛУГИ 🏆'])
+                screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ 🏆')
             elif service == 'ГІБРИДНІ РІШЕННЯ':
-                mass = list(menu['ТОП-ПОСЛУГИ'])
-                screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ')
+                mass = list(menu['ТОП-ПОСЛУГИ 🏆'])
+                screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ 🏆')
             elif service == 'ІДЕНТИФІКАЦІЯ ЗАГРОЗ':
-                mass = list(menu['ТОП-ПОСЛУГИ'])
-                screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ')
+                mass = list(menu['ТОП-ПОСЛУГИ 🏆'])
+                screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ 🏆')
             elif service == 'БУДІВНИЦТВО ВОЛЗ':
-                mass = list(menu['ТОП-ПОСЛУГИ'])
-                screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ')
-        elif message.text.lower() == 'назад':
-            mass = list(menu['ТОП-ПОСЛУГИ'])
-            screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ')
+                mass = list(menu['ТОП-ПОСЛУГИ 🏆'])
+                screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ 🏆')
+        elif message.text.lower() == '⬅️назад':
+            mass = list(menu['ТОП-ПОСЛУГИ 🏆'])
+            screen_item.get_previous_screen(mass, top_service, True, 'ТОП-ПОСЛУГИ 🏆')
         else:
             screen_item.get_error_screen(service_top_order)
     except Exception:
@@ -416,7 +416,7 @@ def add_manager(message):
             mass = list(menu.keys())
             screen_item.get_previous_screen(mass, first_screen, False, 'ЗАЯВА МЕНЕДЖЕРУ')
         else:
-            if message.text.lower() != 'назад':
+            if message.text.lower() != '⬅️назад':
                 db_users.add_message(message)
                 mass = list(menu.keys())
                 screen_item.get_previous_screen(mass, first_screen, False, 'ЗАЯВА МЕНЕДЖЕРУ')
@@ -447,7 +447,7 @@ def top_question(message):
         elif message.text.lower() == 'повернутися до питань':
             mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
             screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
-        elif message.text.lower() == 'назад':
+        elif message.text.lower() == '⬅️назад':
             mass = list(menu.keys())
             screen_item.get_previous_screen(mass, first_screen, False, 'Почати')
         else:

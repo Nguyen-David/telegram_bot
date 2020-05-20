@@ -54,13 +54,13 @@ menu = {
     },
     'ПІДКЛЮЧИТИ МЕНЕДЖЕРА ✍️': {},
     '📩 КОНТАКТИ 📞': {},
-    'НАЙПОПУЛЯРНІШІ ПИТАННЯ': {
+    '❓ПИТАННЯ❓': {
         'GIGATRANS': 'GIGATRANS',
         'GIGACENTER': 'GIGACENTER',
         'GIGACLOUD': 'GIGACLOUD',
         'GIGASAFE': 'GIGASAFE'
     },
-    'КАР\'ЄРА': {}
+    '💼 КАР\'ЄРА 💼': {}
 
 }
 

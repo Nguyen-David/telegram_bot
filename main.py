@@ -37,14 +37,14 @@ def first_screen(message):
                 screen_item.get_add_manager_screen(add_manager)
             elif message.text.lower() == '📩 контакти 📞':
                 screen_item.get_recursive_screen(first_screen)
-            elif message.text.lower() == 'найпопулярніші питання':
-                mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
+            elif message.text.lower() == '❓питання❓':
+                mass = list(menu['❓ПИТАННЯ❓'])
                 screen_item.get_current_screen(mass, top_question, True)
-            elif message.text.lower() == 'кар\'єра':
+            elif message.text.lower() == '💼 кар\'єра 💼':
                 screen_item.get_recursive_screen(first_screen)
             elif message.text.lower() == 'повернутися до питань':
-                mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
-                screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
+                mass = list(menu['❓ПИТАННЯ❓'])
+                screen_item.get_previous_screen(mass, top_question, True, '❓ПИТАННЯ❓')
             else:
                 mass = list(menu.keys())
                 screen_item.get_first_screen(mass, first_screen, False, 'ОШИБКА')
@@ -71,8 +71,8 @@ def about_gigagroup(message):
                 mass = list(menu['ПРО GIGAGROUP']['GIGASAFE'])
                 screen_item.get_current_screen(mass, about_gigasafe, True)
             elif message.text.lower() == 'повернутися до питань':
-                mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
-                screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
+                mass = list(menu['❓ПИТАННЯ❓'])
+                screen_item.get_previous_screen(mass, top_question, True, '❓ПИТАННЯ❓')
             elif message.text.lower() == '⬅️назад':
                 mass = list(menu.keys())
                 screen_item.get_previous_screen(mass, first_screen, False, 'Почати')
@@ -97,8 +97,8 @@ def about_gigatrans(message):
             msg = bot.send_message(message.chat.id, dialog['ЧОМУ НАС ОБИРАЮТЬ GIGATRANS'], parse_mode="Markdown")
             bot.register_next_step_handler(msg, about_gigatrans)
         elif message.text.lower() == 'повернутися до питань':
-            mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
-            screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
+            mass = list(menu['❓ПИТАННЯ❓'])
+            screen_item.get_previous_screen(mass, top_question, True, '❓ПИТАННЯ❓')
         elif message.text.lower() == '⬅️назад':
             mass = list(menu['ПРО GIGAGROUP'])
             screen_item.get_previous_screen(mass, about_gigagroup, True, 'ПРО GIGAGROUP')
@@ -155,8 +155,8 @@ def about_gigacenter(message):
             msg = bot.send_message(message.chat.id, dialog['ЧОМУ НАС ОБИРАЮТЬ GIGACENTER'], parse_mode="Markdown")
             bot.register_next_step_handler(msg, about_gigacenter)
         elif message.text.lower() == 'повернутися до питань':
-            mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
-            screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
+            mass = list(menu['❓ПИТАННЯ❓'])
+            screen_item.get_previous_screen(mass, top_question, True, '❓ПИТАННЯ❓')
         elif message.text.lower() == '⬅️назад':
             mass = list(menu['ПРО GIGAGROUP'])
             screen_item.get_previous_screen(mass, about_gigagroup, True, 'ПРО GIGAGROUP')
@@ -208,8 +208,8 @@ def about_gigacloud(message):
             msg = bot.send_message(message.chat.id, dialog['ЧОМУ НАС ОБИРАЮТЬ GIGACLOUD'], parse_mode="Markdown")
             bot.register_next_step_handler(msg, about_gigacloud)
         elif message.text.lower() == 'повернутися до питань':
-            mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
-            screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
+            mass = list(menu['❓ПИТАННЯ❓'])
+            screen_item.get_previous_screen(mass, top_question, True, '❓ПИТАННЯ❓')
         elif message.text.lower() == '⬅️назад':
             mass = list(menu['ПРО GIGAGROUP'])
             screen_item.get_previous_screen(mass, about_gigagroup, True, 'ПРО GIGAGROUP')
@@ -260,8 +260,8 @@ def about_gigasafe(message):
             msg = bot.send_message(message.chat.id, dialog['ЧОМУ НАС ОБИРАЮТЬ GIGASAFE'], parse_mode="Markdown")
             bot.register_next_step_handler(msg, about_gigasafe)
         elif message.text.lower() == 'повернутися до питань':
-            mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
-            screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
+            mass = list(menu['❓ПИТАННЯ❓'])
+            screen_item.get_previous_screen(mass, top_question, True, '❓ПИТАННЯ❓')
         elif message.text.lower() == '⬅️назад':
             mass = list(menu['ПРО GIGAGROUP'])
             screen_item.get_previous_screen(mass, about_gigagroup, True, 'ПРО GIGAGROUP')
@@ -360,8 +360,8 @@ def top_service(message):
             msg = bot.send_message(message.chat.id, dialog['БУДІВНИЦТВО ВОЛЗ'], reply_markup=keyboard_service_order,parse_mode="Markdown")
             bot.register_next_step_handler(msg, service_top_order, 'GIGATRANS', 'БУДІВНИЦТВО ВОЛЗ')
         elif message.text.lower() == 'повернутися до питань':
-            mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
-            screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
+            mass = list(menu['❓ПИТАННЯ❓'])
+            screen_item.get_previous_screen(mass, top_question, True, '❓ПИТАННЯ❓')
         elif message.text.lower() == '⬅️назад':
             mass = list(menu.keys())
             screen_item.get_previous_screen(mass, first_screen, False, 'Почати')
@@ -445,8 +445,8 @@ def top_question(message):
             mass = list(inline_menu['GIGASAFE'])
             screen_item.get_popular_question_screen(mass, 'gigasafe', top_question)
         elif message.text.lower() == 'повернутися до питань':
-            mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
-            screen_item.get_previous_screen(mass, top_question, True, 'НАЙПОПУЛЯРНІШІ ПИТАННЯ')
+            mass = list(menu['❓ПИТАННЯ❓'])
+            screen_item.get_previous_screen(mass, top_question, True, '❓ПИТАННЯ❓')
         elif message.text.lower() == '⬅️назад':
             mass = list(menu.keys())
             screen_item.get_previous_screen(mass, first_screen, False, 'Почати')
@@ -533,7 +533,7 @@ def callback_inline(call):
         else:
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                   text=dialog['ОШИБКА ВОПРОСА'])
-            mass = list(menu['НАЙПОПУЛЯРНІШІ ПИТАННЯ'])
+            mass = list(menu['❓ПИТАННЯ❓'])
             screen_item.get_previous_screen(mass, top_question, True, 'Почати')
     except Exception:
         print('Ошибка формата')
